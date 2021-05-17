@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginv-pvc
+spec:
+  selector:
+    matchLabels:
+      app: nginv-pvc
+  template:
+    metadata:
+      labels:
+        app: nginv-pvc
+    spec:
+      containers:
+      - name: nginv-pvc-container
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: nfs-vol
+            mountPath: /opt
+
+      volumes:
+      - name: nfs-vol
+        persistentVolumeClaim:
+          claimName: pvc-one
+

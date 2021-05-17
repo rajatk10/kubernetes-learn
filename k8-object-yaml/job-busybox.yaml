@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sleepy
+spec:
+  completions: 5 #defines the number of completions the job needs to have.
+  parallelism: 2 #at the same time number of pods which can be deployed. 
+  activeDeadlineSeconds: 15 #rune for 15 seconds before job/pod ends
+  template:
+    spec:
+      containers:
+      - name: resting
+        image: busybox
+        command: ["bin/sleep"]
+        args: ["5"]
+      restartPolicy: Never

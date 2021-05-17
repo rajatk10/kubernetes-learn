@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-alpine
+  namespace: default
+spec:
+  containers:
+  - name: alpine-container-1
+    image: 30.0.248.2/before-backup/alpine:21Jan  # Image location 
+    command:   #The commands to prevent alpine from exiting post deployment
+    - /bin/sh
+    - "-c"
+    - "sleep 60m"
+    imagePullPolicy: Always
+  imagePullSecrets:
+  - name: harbor-registry-secret #the name scret key
+  tolerations:  #First need to Taint the node - kubectl taint nodes node1 color=blue:NoSchedule
+    - key: "color"
+      operator: "Equal"
+      value: "blue"
+      effect: "NoSchedule"

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: colors
+  namespace: default
+data:
+  black: |
+    k
+    known as key
+  cyan: |
+    c
+  favourite: |
+    blue
+  magenta: |
+    m
+  text: black
+  yellow: |
+    y
