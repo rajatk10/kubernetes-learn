@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-one
+  namespace: accounting
+  labels:
+    system: secondary
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      system: secondary
+  template:
+    metadata:
+      labels:
+        system: secondary
+    spec:
+      containers:
+      - name: nginx-one
+        image: nginx:1.16.1
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      nodeSelector: #One Method of node affinity.
+        system: secondary
+
+#If label is not set at the node prior to creating deployment with node selector then pod will be
+#in running state and we could look at pod events.
+  #Warning  FailedScheduling  2m    default-scheduler  0/2 nodes are available: 1 node(s) didn't match Pod's node affinity, 1 node(s) had taint {node-role.kuber
+#netes.io/master: }, that the pod didn't tolerate.

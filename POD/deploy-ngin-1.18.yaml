@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nginx
+  labels:  #This is the label of Deployment
+    app: nginx-1.18
+spec:
+  replicas: 3
+  selector:
+    matchLabels: #selector defined to group POD which has label app=nginx-1.18
+      app: nginx-1.18
+  template:
+    metadata:
+      labels:   #Lable defined to group PODS 
+        app: nginx-1.18
+    spec:
+      containers:
+      - name: nginx #Container name must start and end with the alphanumeric so removed 1.18
+        image: 30.0.248.2/before-backup/nginx:1.18.0
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: harbor-registry-secret #the name scret key
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+ name: nginx-svc
+ labels:
+   app: nginx
+spec:
+  type: LoadBalancer
+  selector: 
+    app: nginx-1.18
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
