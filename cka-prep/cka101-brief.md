@@ -5,6 +5,7 @@ INTRO
   As of 2021, the exam is of 2 hours and it has 17-19 tasks with varying weightage as per thier difficulty level. The passing marks is 66%. 
 
   Syllabus & weightage
+  
         Cluster Architecture, Installation & Configuration	25%
         Workloads & Scheduling	                            15%
         Services & Networking	                            20%
