@@ -1,0 +1,29 @@
+# create pod with immutable concept where we avoid elevated privileges & write permissions.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: holiday
+  name: holiday
+spec:
+  containers:
+  - image: 80.0.16.3/test123/bash:5.1.0
+    name: c1
+    command:
+    - sh
+    - -c
+    - sleep 3600
+  - image: 80.0.16.3/test123/bash:5.1.0
+    name: c2
+    command:
+    - sh
+    - -c
+    - sleep 3600
+    securityContext:
+      privileged: false  # privileged false
+      readOnlyRootFilesystem: true # only read permission on file system
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
