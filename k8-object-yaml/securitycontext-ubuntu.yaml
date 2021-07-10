@@ -11,5 +11,5 @@ spec:
     image: ubuntu
     name: ubuntu-sleeper
     securityContext:
-      capabilities:
+      capabilities: #capabilities are only supported at container level 
         add: ["SYS_TIME"]

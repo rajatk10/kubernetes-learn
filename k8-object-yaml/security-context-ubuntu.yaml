@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-sleeper
+  labels:
+    app: ubuntu
+spec:
+  securityContext: #setting security at pod, setting at container level will override the setting ar POD Level. 
+    runAsUser: 1000 # setting user id on the pod as 1000
+  containers:
+  - image: ubuntu
+    name: ubuntu-sleeper
+    command: ["sleep", "3600"]
+
+------
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: securityContext-override
+spec:
+  securityContext:
+    runAsUser: 1001
+  containers:
+  -  image: ubuntu
+     name: web
+     command: ["sleep", "5000"]
+     securityContext:  #overriding pod setting 
+      runAsUser: 1002
+
+  -  image: ubuntu
+     name: sidecar
+     command: ["sleep", "5000"]

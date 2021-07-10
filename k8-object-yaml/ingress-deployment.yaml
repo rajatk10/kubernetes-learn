@@ -1,3 +1,73 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata:
+  name: nginx-configuration 
+  namespace: ingress-space 
+data:
+
+-------
+apiVersion: v1 
+kind: ServiceAccount
+metadata:
+  name: ingress-serviceaccount 
+  namespace: ingress-space
+spec:
+
+-------
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ingress-role
+  namespace: ingress-space
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - pods
+  - secrets
+  - namespaces
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resourceNames:
+  - ingress-controller-leader-nginx
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs:
+  - get
+
+-------
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ingress-role-binding
+  namespace: ingress-space
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ingress-role
+subjects:
+- kind: ServiceAccount
+  name: ingress-serviceaccount
+
+
+-------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,3 +105,22 @@ spec:
               containerPort: 80
             - name: https
               containerPort: 443
+
+-------
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ingress
+  name: ingress
+  namespace: ingress-space
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30080
+  selector:
+    name: nginx-ingress
+  type: NodePort
