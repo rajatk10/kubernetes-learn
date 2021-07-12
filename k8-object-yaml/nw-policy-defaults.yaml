@@ -1,0 +1,56 @@
+# default deny ingress
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+
+---
+
+  # allow all ingress
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress
+spec:
+  podSelector: {}
+  ingress:
+  - {}
+  policyTypes:
+  - Ingress
+
+---
+
+#egress - deny all 
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-egress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+
+# allow dns
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+spec:
+  podSelector: {} # all pods
+  policyTypes:
+  - Egress
+  egress:
+  - to 
+    ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP

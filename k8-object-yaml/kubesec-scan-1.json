@@ -1,6 +1,3 @@
-{
-  "comment": "tools for analyzing files before creating the resource via kubectl - kubesec - https://kubesec.io "
-}
 
 [
   {
