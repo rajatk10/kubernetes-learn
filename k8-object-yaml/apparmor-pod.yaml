@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    creationTimestamp: null
+    labels:
+        run: nginx
+    name: nginx
+    annotations:
+        container.apparmor.security.beta.kubernetes.io/nginx: localhost/restricted-nginx
+        # Annotation is copied as it is and then localhost/<profile_name>
+        # to load apparmor profile - apparmor_parser -q /etc/apparmor.d/usr.sbin.nginx-updated
+spec:
+    containers:
+        -
+            image: 'nginx:alpine'
+            name: nginx
+            volumeMounts:
+                -
+                    mountPath: /usr/share/nginx/html
+                    name: test-volume
+    volumes:
+        -
+            name: test-volume
+            hostPath:
+                path: /data/pages
+                type: Directory

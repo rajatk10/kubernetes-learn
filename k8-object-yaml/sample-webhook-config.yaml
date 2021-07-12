@@ -1,0 +1,37 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: demo-webhook
+webhooks:
+  - name: webhook-server.webhook-demo.svc
+    clientConfig:
+      service:
+        name: webhook-server
+        namespace: webhook-demo
+        path: "/mutate" #encoded cert place it below echo "text" | base64
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lVTFdmaFNDcUZncE9VRHE2M1crZ0RyS2s4WnhNd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0x6RXRNQ3NHQTFVRUF3d2tRV1J0YVhOemFXOXVJRU52Ym5SeWIyeHNaWElnVjJWaWFHOXZheUJFWlcxdgpJRU5CTUI0WERUSXhNRGN3TWpFMU1qZ3lOVm9YRFRJeE1EZ3dNVEUxTWpneU5Wb3dMekV0TUNzR0ExVUVBd3drClFXUnRhWE56YVc5dUlFTnZiblJ5YjJ4c1pYSWdWMlZpYUc5dmF5QkVaVzF2SUVOQk1JSUJJakFOQmdrcWhraUcKOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXM4ZnhnTFBTZHNNYlVOTFdidXlXaWtJWUdxRDQzSy9LWDZMbgpQSWdWNzVTRU4zdkdpQVBNMjVUZ3VvVTZLK21FZ0JFWlBkZTdrS01DcjBwb2h5NmFHUFdPdHUzTEhzVENBTFh0CmY4bFVJNGNOd3BWWXBHbWVnZXJhbzB3VTB4UllCY0dhdDFUSmEzY2JxMXA2ZmFKQi92WlRNVGlaR2h0ODkvMlgKZ0hXSTlIZ3NyVmdEQW1LS09NYXpLNDNjR3FWR2hneG54bml5Vm5aOXNUUS9lSFRqU2sySXNtUVQrQmM4UGRJQgp3OFNVcUQrQ2VtUlhBOTE2dVlZUmZySEVKeE5qRlRRa05TMU5Hcm9GWXlRc2prZmtIRW5Od3ZHNkJaemNDME0vCmhHT01nZmVhdkJ0T0M0Nmk1RjhTblZtcTNYWHNSVUV0UnNBYkNJVVREMUJybWlEK2RRSURBUUFCbzFNd1VUQWQKQmdOVkhRNEVGZ1FVVGV5UGJEMmFsREJPSlBCejFiSy80dS8xTmF3d0h3WURWUjBqQkJnd0ZvQVVUZXlQYkQyYQpsREJPSlBCejFiSy80dS8xTmF3d0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFNbmxhN2ErZEN1WkF1bUgyL0lWMkpEWUxzSmI2SmY4ZGM3YktTazRRbHAyTXNZSDQ0dWt2Ukl3cDNUWEcKT0VKenpqV3JOeWdTK3ZHVUJjYnpWU3RCQ3JmbjdiRFBRRnl2dXowdnAyVGVSME8yWWxwRWNSclN6L2xjU2xkTwpWb2hVQWlIbDdzYWE3R3dDeEk2YUVUcmREVUhpZzdZVUxtcmZjbHovajhGbUtkNEdTUTZhRE1ocExrRG5pUUQ1CnRucjZVT0RpZHZweEJxMUphVG52L1M0T0VYbnRhVHB3Y0UxVnYvdGRUR2thTWdOM3h2aVpoem1sZzFkL3VVbVEKc1NvZGNsK1hHR2g4cTI2YTl2VCtRZUJGQi9mVEVlTTllTXlJL1d1d25EK3RoVGdXL3ZoK2oyUnQzckR2K0h0KwpvbUdyTjJVSnZpNGVrcEFlZE9uK25rd2tIUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+
+# After this config if we deploy pod with no security config, the defualt is set as
+#  securityContext:
+#   runAsNonRoot: true
+#    runAsUser: 1234
+
+# If we set security config.
+#spec:
+#  restartPolicy: OnFailure
+#  securityContext:
+#    runAsNonRoot: false
+
+#If we deploy pod with confilicting security context
+
+#  restartPolicy: OnFailure
+  #securityContext:
+    #runAsNonRoot: true ; asking not to run as non root user
+    #runAsUser: 0 ; instead run as root user
+
+#Error from server: error when creating "/root/pod-with-conflict.yaml": admission webhook "webhook-server.webhook-demo.svc" denied the request: runAsNonRoot specified, but runAsUser set to 0 (the root user)

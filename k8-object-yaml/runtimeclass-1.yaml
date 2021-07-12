@@ -1,0 +1,27 @@
+
+# RuntimeClass is a feature for selecting the container runtime configuration. The container runtime configuration is used to run a Pod's containers.
+
+
+apiVersion: node.k8s.io/v1  # RuntimeClass is defined in the node.k8s.io API group
+kind: RuntimeClass
+metadata:
+  name: secure-runtime  # The name the RuntimeClass will be referenced by
+  # RuntimeClass is a non-namespaced resource
+handler: runsc
+
+-----
+# using runtimeclass in a Pod spec
+
+apiVersion: v1
+kind: Pod
+metadata:
+    name: simple-webapp-1
+    labels:
+        name: simple-webapp
+spec:
+    runtimeClassName: secure-runtime
+    containers:
+    - name: simple-webapp
+      image: kodekloud/webapp-delayed-start
+      ports:
+      - containerPort: 8080

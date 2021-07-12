@@ -8,7 +8,7 @@ INTRO
   
         Cluster Architecture, Installation & Configuration	25%
         Workloads & Scheduling	                            15%
-        Services & Networking	                            20%
+        Services & Networking	                              20%
         Storage	                                            10%
         Troubleshooting	                                    30%
 
@@ -35,10 +35,11 @@ RESOURCES
     1. Kubernetes in action - https://www.manning.com/books/kubernetes-in-action 
     2. Kuberntes the hard way - https://github.com/kelseyhightower/kubernetes-the-hard-way
 
-Practise Materials:
+PRACTISE MATERIALS:
 
     1. Practise for CKA using the mock paper available along with course. If it did not come along with course then no worries. 
     2. Pratise all the task listed here - https://github.com/StenlyTU/K8s-training-official 
     3. Check this out too for more details - https://github.com/walidshaari/Kubernetes-Certified-Administrator 
+    4. https://killer.sh/ - This is same simulator which is provided for practise once you register for CKA courses. 
 
     

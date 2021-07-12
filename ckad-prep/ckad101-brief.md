@@ -36,8 +36,9 @@ RESOURCES
     1. Kubernetes in action - https://www.manning.com/books/kubernetes-in-action 
        It is useful for CKA/CKAD in general for any K8 Enthusiast. 
 
-Practise Materials:
+PRACTISE MATERIALS:
 
     1. Practise for CKAD using the mock paper available along with course. If it did not come along with course then no worries.
     2. CKA Excerises - https://github.com/dgkanatsios/CKAD-exercises 
     3. kubectl cheat sheet - https://kubernetes.io/docs/reference/kubectl/cheatsheet/ , get a good understanding of imperative commands as that can come very handy for all the problem. 
+    4. https://killer.sh/ - This is same simulator which is provided for practise once you register for CKA courses. 

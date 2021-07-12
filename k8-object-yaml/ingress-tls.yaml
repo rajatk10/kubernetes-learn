@@ -1,0 +1,29 @@
+# create secret using key and crt
+# kubectl create secret tls secret-name --key=<path-to-file> --cert=<path-to-file>
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secure
+  namespace: team-pink
+spec:
+  tls:                            # add
+    - hosts:                      # add
+      - secure-ingress.test       # add
+      secretName: tls-secret      # add
+  rules:
+  - host: secure-ingress.test
+    http:
+      paths:
+      - backend:
+          service:
+            name: secure-app
+            port: 80
+        path: /app
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: secure-api
+            port: 80
+        path: /api
+        pathType: ImplementationSpecific
